@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      username:DataTypes.STRING,
     },
     {
       timestamps: false,
@@ -21,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = (models) => {
     User.hasMany(models.Publication, {
       foreignKey: "users_id",
-    });
+    }),
+    User.hasMany(models.Comment, {
+      foreignKey: "users_id",
+      as:'user'
+    })    
   };
 
   return User;

@@ -1,20 +1,33 @@
-const { Publication, User } = require("./models");
+const { Publication, User, Comment } = require("./models");
+const moment = require('moment')
 
 async function verFeed() {
   const listaDePublications = await Publication.findAll({
     include: [
       {
         model: User,
-        as: "user",
-        required: true,
-      },
+        as: "user",        
+      }, 
       {
-        mode,
+        model: Comment,
+        as:'comments',
+        include: [
+          {
+            model: User,
+            as: 'user',
+          },
+        ],
       },
+              
     ],
   });
 
-  console.log(listaDePublications[0].user);
+  
+  console.log(listaDePublications[0].comments[0].user)
+  
+    
+
+  
 }
 
 async function criarPublicacao() {
@@ -49,4 +62,15 @@ async function verPublicacoes(idUser) {
   console.log(publications);
 }
 
-verPublicacoes(1);
+async function verComentarios() {
+  const comments = await Comment.findAll({
+    include: {
+      model: Publication,
+      as: "publication",
+    },
+  })
+
+  console.log(comments[0].publication)
+}
+
+verFeed()

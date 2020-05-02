@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       users_id: {
         allowNull: false,
         type: DataTypes.INTEGER,
-      },
+      },      
     },
     {
       timestamps: false,
@@ -28,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
     Publication.belongsTo(models.User, {
       foreignKey: "users_id",
       as: "user",
-    });
+    }),
+    Publication.hasMany(models.Comment, {
+      foreignKey: "publications_id",
+      as: "comments",
+    })
   };
 
   return Publication;
